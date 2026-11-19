@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>空読み｜生まれた日の空から、あなたの居場所を読む</title>
+<meta name="description" content="生年月日から12の空タイプを読み解き、あなたが落ち着ける部屋と、動く年・整える年をお伝えします。">
+<meta property="og:title" content="空読み｜あなたは、どの空？">
+<meta property="og:description" content="生年月日から12の空タイプと、あなたが落ち着ける部屋を読み解きます。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1226; --bg2:#141b36; --card:#19213f; --line:#2c3663;
+  --text:#e9e6f2; --muted:#a8a6c4; --gold:#e6c98a; --gold2:#c9a65c;
+  --rest:#8fb8d8; --move:#e6c98a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Zen Kaku Gothic New",system-ui,sans-serif;line-height:1.9;font-size:16px;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Shippori Mincho",serif;font-weight:700;letter-spacing:.06em;line-height:1.5}
+h2{font-size:clamp(1.5rem,4vw,2rem);text-align:center;margin:0 0 .4em}
+.lead{color:var(--muted);text-align:center;margin:0 auto 2.2em;max-width:36em}
+section{padding:80px 0;border-top:1px solid var(--line)}
+
+/* hero */
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 120%,#2a2f5e 0%,var(--bg) 60%);border-top:0}
+.stars{position:absolute;inset:0;pointer-events:none}
+.stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.6;animation:tw 4s infinite ease-in-out}
+@keyframes tw{50%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.stars i{animation:none}}
+.moon{width:72px;height:72px;margin:0 auto 24px;border-radius:50%;box-shadow:-14px 6px 0 0 var(--gold);transform:rotate(-20deg)}
+.hero h1{font-size:clamp(2.6rem,9vw,4.4rem);margin:0;letter-spacing:.25em;padding-left:.25em}
+.hero .catch{font-family:"Shippori Mincho",serif;font-size:clamp(1.05rem,3.4vw,1.35rem);margin:.6em 0 2em}
+.btn{display:inline-block;background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1630;
+  font-weight:700;text-decoration:none;padding:14px 34px;border-radius:999px;border:0;font-size:1rem;cursor:pointer;
+  font-family:inherit;letter-spacing:.05em}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+
+/* form */
+.form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;max-width:520px;margin:0 auto;text-align:center}
+.form label{display:block;color:var(--muted);font-size:.9rem;margin-bottom:8px}
+.form input{width:100%;max-width:260px;font-size:1.1rem;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--bg2);color:var(--text);font-family:inherit;color-scheme:dark;text-align:center}
+.form .btn{margin-top:18px}
+.err{color:#f1a4a4;font-size:.9rem;min-height:1.5em;margin-top:8px}
+
+/* result */
+#result{display:none;max-width:720px;margin:36px auto 0}
+.res-head{text-align:center;padding:32px 20px;border-radius:18px;
+  background:radial-gradient(ellipse at 50% 0%,#2e3570 0%,var(--card) 70%);border:1px solid var(--line)}
+.res-head .you{color:var(--muted);font-size:.9rem;margin:0}
+.res-head h3{font-size:clamp(1.9rem,7vw,2.6rem);margin:.2em 0 .1em;color:var(--gold)}
+.res-head .star{color:var(--muted);font-size:.85rem}
+.res-head .desc{margin:1em auto 0;max-width:30em}
+.words{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.word{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+.word small{display:block;color:var(--muted);font-size:.78rem;letter-spacing:.1em}
+.word p{font-family:"Shippori Mincho",serif;font-size:1.1rem;margin:.3em 0 0}
+.room{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:12px}
+.room h4{margin:0 0 .6em;font-family:"Shippori Mincho",serif;color:var(--gold);font-size:1.1rem}
+.room dl{margin:0;display:grid;grid-template-columns:7.5em 1fr;gap:8px 12px}
+.room dt{color:var(--muted);font-size:.9rem}
+.room dd{margin:0}
+.year{border-radius:14px;padding:22px;margin-bottom:12px;border:1px solid var(--line);background:var(--card)}
+.year .tag{display:inline-block;font-weight:700;padding:2px 14px;border-radius:999px;font-size:.9rem;margin-bottom:8px}
+.tag.rest{background:rgba(143,184,216,.18);color:var(--rest)}
+.tag.move{background:rgba(230,201,138,.18);color:var(--move)}
+.note{color:var(--muted);font-size:.82rem;margin-top:10px}
+.share{text-align:center;margin-top:24px}
+.share .btn{margin:6px}
+
+/* types */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.tcard h3{margin:0;font-size:1.2rem;color:var(--gold)}
+.tcard .s{color:var(--muted);font-size:.78rem;margin:0 0 .6em}
+.tcard p{margin:0;font-size:.92rem}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;max-width:640px;margin:0 auto;font-size:.95rem}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:left}
+.tbl th{color:var(--muted);font-weight:500;font-size:.85rem}
+.tbl tr.now td{background:rgba(143,184,216,.08)}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.svc .item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
+.svc h3{margin:0 0 .2em;font-size:1.15rem}
+.svc .price{color:var(--gold);font-weight:700;font-size:1.2rem;margin:.2em 0 .6em}
+.svc p{margin:0;font-size:.92rem;color:var(--muted);flex:1}
+.soon{display:inline-block;font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px;margin-top:12px;align-self:flex-start}
+
+.promise{max-width:640px;margin:0 auto;padding:0;list-style:none}
+.promise li{padding:12px 0 12px 28px;border-bottom:1px solid var(--line);position:relative}
+.promise li::before{content:"☾";position:absolute;left:0;color:var(--gold)}
+
+.cta{text-align:center}
+footer{padding:40px 0 60px;color:var(--muted);font-size:.8rem;text-align:center;border-top:1px solid var(--line)}
+
+@media (max-width:560px){
+  section{padding:60px 0}
+  .words{grid-template-columns:1fr}
+  .room dl{grid-template-columns:1fr;gap:2px}
+  .room dd{margin-bottom:10px}
+  .form{padding:22px 16px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative">
+    <div class="moon" aria-hidden="true"></div>
+    <h1>空読み</h1>
+    <p class="catch">生まれた日の空から、<br>あなたの居場所を読む。</p>
+    <a href="#shindan" class="btn">無料で、わたしの空を知る</a>
+  </div>
+</header>
+
+<main>
+<section id="shindan">
+  <div class="wrap">
+    <h2>あなたは、どの空？</h2>
+    <p class="lead">生年月日を入れるだけで、12の空タイプと、<br>あなたが落ち着ける部屋をお伝えします。</p>
+    <form class="form" id="form" novalidate>
+      <label for="bd">生年月日</label>
+      <input type="date" id="bd" min="1930-01-01" max="2015-12-31" value="1985-01-01" required>
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn" type="submit">空を読む</button>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="types">
+  <div class="wrap">
+    <h2>12の空</h2>
+    <p class="lead">算命学の「十二大従星」をもとに、人の一生のエネルギーを12の空に見立てました。<br>30〜50代のいまのあなたを動かしている星です。</p>
+    <div class="grid" id="typeGrid"></div>
+  </div>
+</section>
+
+<section id="koyomi">
+  <div class="wrap">
+    <h2>動く年・整える年</h2>
+    <p class="lead">12年のうち2年は「整える年」。新しく探すより、いまの部屋を自分の居場所に整える時期です。<br>どうしても動くときにも、整え方があります。</p>
+    <table class="tbl">
+      <thead><tr><th>グループ</th><th>整える年</th><th>2027年</th></tr></thead>
+      <tbody id="tchTable"></tbody>
+    </table>
+    <p class="note" style="text-align:center">あなたのグループは、上の診断で分かります。</p>
+  </div>
+</section>
+
+<section id="service">
+  <div class="wrap">
+    <h2>空読みの住まい</h2>
+    <p class="lead">タイプと方位から、あなたの部屋を読み解きます。</p>
+    <div class="svc">
+      <div class="item">
+        <h3>住まい暦 2027</h3>
+        <div class="price">980円</div>
+        <p>タイプ別の一冊。12か月分の「部屋で整えること」、動く年・整える年、物件探しのチェックリスト。</p>
+        <span class="soon">12月公開予定</span>
+      </div>
+      <div class="item">
+        <h3>寝る向き・座る向き診断</h3>
+        <div class="price">2,980円</div>
+        <p>枕の向き、ソファやデスクの位置、玄関で一つだけ整えること。</p>
+        <span class="soon">準備中</span>
+      </div>
+      <div class="item">
+        <h3>部屋読み</h3>
+        <div class="price">7,800円</div>
+        <p>間取り図に、あなたの吉方位を重ねて読み解くPDF。お金をかけずにできる「今週やること」つき。</p>
+        <span class="soon">準備中</span>
+      </div>
+      <div class="item">
+        <h3>引っ越し比較</h3>
+        <div class="price">14,800円</div>
+        <p>候補の部屋を3つまで比べて、あなたが落ち着けるのはどこかを読みます。</p>
+        <span class="soon">準備中</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="promise">
+  <div class="wrap">
+    <h2>空読みの約束</h2>
+    <p class="lead">占いは、あなたが自分で選ぶための灯りです。</p>
+    <ul class="promise">
+      <li>「買わないと不幸になる」とは言いません。</li>
+      <li>開運グッズの購入を、診断の条件にしません。</li>
+      <li>特定の物件の紹介や仲介はしていません。</li>
+      <li>住所はお聞きしません。</li>
+      <li>最後に決めるのは、いつもあなたです。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta" id="line">
+  <div class="wrap">
+    <h2>新月の夜に、空の便りを</h2>
+    <p class="lead">LINEで、あなたのタイプに合わせた月の言葉をお届けします。</p>
+    <a href="#" class="btn" id="lineBtn">LINEで受け取る</a>
+    <p class="note" id="lineNote">（LINEは準備中です）</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>空読みは、算命学と風水の考え方をもとにした読み物です。結果は心を整えるための参考としてお楽しみください。<br>医療・法律・お金・不動産取引に関するご判断は、それぞれの専門家にご相談ください。</p>
+    <p>© <span id="yr"></span> 空読み</p>
+  </div>
+</footer>
+
+<script>
+// LINEの友だち追加URLが決まったら、ここに入れてください
+const LINE_URL = "";
+
+const TYPES = [
+ {key:"tenki",  name:"朝露の星",   star:"天貴星", stage:"児童",
+  desc:"純粋で真面目、品がある。学ぶことが好きで、まっすぐな誇りを持つ人。",
+  approve:"ずっと正しくあろうとしてきた", permit:"完璧じゃなくていい",
+  room:"清潔で整っていて、白と本棚がある部屋", tired:"散らかって、片付かない部屋", cond:"収納が多い／築浅／白い内装"},
+ {key:"tenko",  name:"ゆらめく夕焼け", star:"天恍星", stage:"思春期",
+  desc:"夢と恋に生きる人。華やかで、ここではないどこかに惹かれる感性を持つ。",
+  approve:"感じる力が、人よりずっと強い", permit:"ここを出ていっていい",
+  room:"夕方の光と色があり、飾れる壁と鏡がある部屋", tired:"地味で窮屈な部屋", cond:"西向きの窓／天井が高い／飾れる壁"},
+ {key:"tennan", name:"まっすぐな稲妻", star:"天南星", stage:"青年",
+  desc:"正義感が強く、はっきり言える人。白黒をつけて前へ進む力がある。",
+  approve:"言うべきことを言ってきた人", permit:"怒っていい",
+  room:"シンプルで見通しがよく、まっすぐ動ける部屋", tired:"ごちゃごちゃして死角が多い部屋", cond:"廊下が少ない／長方形の部屋"},
+ {key:"tenroku",name:"凪の海",     star:"天禄星", stage:"壮年",
+  desc:"慎重で現実的。バランスを取りながら、堅実に積み上げていく人。",
+  approve:"崩れないように支えてきた", permit:"たまには波を立てていい",
+  room:"物に定位置があり、落ち着いた色の部屋", tired:"物があふれた部屋", cond:"収納が多い／水辺の近く／静かな住宅街"},
+ {key:"tensho", name:"真昼の太陽",  star:"天将星", stage:"家長",
+  desc:"エネルギーが最も強い人。何でも背負えてしまうぶん、頑張りすぎてしまう。",
+  approve:"一人で全部背負ってきたのね", permit:"もう頑張らなくていい",
+  room:"明るくて、「何もしない椅子」がひとつある部屋", tired:"家事の動線が長い部屋", cond:"南向き／家事動線が短い／休める一角"},
+ {key:"tendo",  name:"黄昏の灯",   star:"天堂星", stage:"老人",
+  desc:"落ち着いた大人の人。控えめに周りを支え、自分にはいちばん厳しい。",
+  approve:"誰にも見えないところで支えてきた", permit:"自分を後回しにしなくていい",
+  room:"自分だけの小さな一角と、暖かい色の灯りがある部屋", tired:"家族と共有の場所しかない部屋", cond:"小さな個室／書斎コーナー"},
+ {key:"tenko2", name:"霧の音色",   star:"天胡星", stage:"病人",
+  desc:"感性と直感が鋭い人。繊細で、目に見えないものの美しさが分かる。",
+  approve:"人の痛みが分かってしまう人", permit:"疲れたと言っていい",
+  room:"静かで、音と香りを整えられ、光を遮れる部屋", tired:"騒音や人通りの多い部屋", cond:"角部屋／最上階／大通りから離れている"},
+ {key:"tenkyoku",name:"澄んだ冬空", star:"天極星", stage:"死人",
+  desc:"純粋で欲がなく、素直な人。ゼロか百かに振れやすい。",
+  approve:"嘘のない生き方をしてきた", permit:"手放していい",
+  room:"物が少なく、窓から空が見える部屋", tired:"物や情報が多すぎる部屋", cond:"眺めがいい／物が少なくて済む広さ"},
+ {key:"tenko3", name:"古い星座",   star:"天庫星", stage:"入墓",
+  desc:"探究心とこだわりが強い人。大切なものを守り、ひとつの道を極める。",
+  approve:"ひとつを守り続けてきた", permit:"変わっても、あなたのまま",
+  room:"思い出の品を飾る棚と、木や和の素材がある部屋", tired:"全部が新品で、仮住まいのような部屋", cond:"和室がある／古めのリノベ物件"},
+ {key:"tenchi", name:"流れ星",     star:"天馳星", stage:"あの世",
+  desc:"瞬発力とスピードがある人。動くことで、物事を動かしていく。",
+  approve:"あなたが動くと、物事が動く", permit:"止まって休んでいい",
+  room:"玄関からすぐ出られて、動線が短い部屋", tired:"駅から遠く、重い家具がある部屋", cond:"駅近／コンパクト／玄関の近くに収納"},
+ {key:"tenpo",  name:"うつろいの月", star:"天報星", stage:"胎児",
+  desc:"多才で、変化に強い人。いくつもの顔を持ち、気分には波がある。",
+  approve:"いくつもの役をこなしてきたのね", permit:"ひとつに決めなくていい",
+  room:"模様替えしやすく、明るさを変えられる部屋", tired:"何も変えられない部屋", cond:"間取りを変えやすい／広めの1LDK"},
+ {key:"tenin",  name:"ひだまりの雲", star:"天印星", stage:"赤ちゃん",
+  desc:"無邪気で、人から自然と可愛がられる人。こだわりが少なく、場をやわらげる。",
+  approve:"あなたがいるだけで、場がやわらぐ", permit:"甘えていい",
+  room:"日当たりがよく、やわらかい布があり、人が集まれる部屋", tired:"冷たく無機質で、ひとりきりの部屋", cond:"南向き／リビングが広い"}
+];
+// TYPES の並び = 十二運の順（長生, 沐浴, 冠帯, 建禄, 帝旺, 衰, 病, 死, 墓, 絶, 胎, 養）
+
+const STEMS = "甲乙丙丁戊己庚辛壬癸";
+const BRANCHES = "子丑寅卯辰巳午未申酉戌亥";
+// 各日干の「長生」の地支
+const CHOSEI = [11,6,2,9,2,9,5,0,8,3];
+// 節入りのおおよその日付（月, 日, その日から始まる月支）
+const SETSU = [[1,6,1],[2,4,2],[3,6,3],[4,5,4],[5,6,5],[6,6,6],[7,7,7],[8,8,8],[9,8,9],[10,8,10],[11,7,11],[12,7,0]];
+const TCH = [ // 日柱の旬ごとの天中殺
+ {name:"戌亥", years:[2030,2031]},
+ {name:"申酉", years:[2028,2029]},
+ {name:"午未", years:[2026,2027]},
+ {name:"辰巳", years:[2024,2025]},
+ {name:"寅卯", years:[2034,2035]},
+ {name:"子丑", years:[2032,2033]}
+];
+
+function dayPillar(y,m,d){
+  const base = Date.UTC(1900,0,1); // 1900-01-01 = 甲戌（60干支の10番目）
+  const days = Math.round((Date.UTC(y,m-1,d)-base)/86400000);
+  return ((10+days)%60+60)%60;
+}
+function monthBranch(m,d){
+  let b = 0, near = false;
+  for(const [sm,sd,br] of SETSU){
+    if(m>sm || (m===sm && d>=sd)) b = br;
+    if(m===sm && Math.abs(d-sd)<=1) near = true;
+  }
+  return {b, near};
+}
+function stage(stem, branch){
+  const s = CHOSEI[stem];
+  return stem%2===0 ? (branch - s + 12)%12 : (s - branch + 12)%12;
+}
+function yearStatus(t){
+  const [a,b] = t.years;
+  if(a===2026) return {cls:"rest", tag:"2027年は 整える年",
+    text:"天中殺の2年目です。新しい部屋を探すより、いまの部屋を自分の居場所に整える年。どうしても動くときは、新しい家具を増やすより、手放すことから始めると整いやすくなります。2028年からは、動き出しやすい流れに変わります。"};
+  if(a===2028) return {cls:"move", tag:"2027年は 動ける年",
+    text:"動き出しやすい年です。2028〜2029年は整える年に入るので、住まいの大きな見直しを考えているなら、2027年のうちに準備を進めておくと流れに乗りやすくなります。"};
+  if(a===2024) return {cls:"move", tag:"2027年は 動ける年",
+    text:"整える年が明けて、動き出しやすい流れに入っています。ずっと気になっていた住まいのことに、手をつけやすい年です。"};
+  return {cls:"move", tag:"2027年は 動ける年",
+    text:`動き出しやすい年です。整える年は${a}〜${b}年なので、しばらくは住まいを自由に選べる流れが続きます。`};
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function render(y,m,d){
+  const dp = dayPillar(y,m,d);
+  const stem = dp%10;
+  const mb = monthBranch(m,d);
+  const t = TYPES[stage(stem, mb.b)];
+  const g = TCH[Math.floor(dp/10)];
+  const ys = yearStatus(g);
+  const el = document.getElementById("result");
+  el.innerHTML = `
+    <div class="res-head">
+      <p class="you">あなたの空は</p>
+      <h3>${esc(t.name)}</h3>
+      <div class="star">${t.star}（${t.stage}の星）</div>
+      <p class="desc">${esc(t.desc)}</p>
+    </div>
+    <div class="words">
+      <div class="word"><small>あなたへ</small><p>「${esc(t.approve)}」</p></div>
+      <div class="word"><small>そして</small><p>「${esc(t.permit)}」</p></div>
+    </div>
+    <div class="room">
+      <h4>${esc(t.name)}さんが落ち着ける部屋</h4>
+      <dl>
+        <dt>落ち着ける部屋</dt><dd>${esc(t.room)}</dd>
+        <dt>疲れやすい部屋</dt><dd>${esc(t.tired)}</dd>
+        <dt>部屋探しの目安</dt><dd>${esc(t.cond)}</dd>
+      </dl>
+    </div>
+    <div class="year">
+      <span class="tag ${ys.cls}">${ys.tag}</span>
+      <div style="color:var(--muted);font-size:.85rem;margin-bottom:6px">あなたのグループ：${g.name}（整える年は ${g.years[0]}〜${g.years[1]}年）</div>
+      <p style="margin:0">${ys.text}</p>
+    </div>
+    ${mb.near ? `<p class="note">※${m}月${d}日は月の切り替わり（節入り）の前後にあたるため、生まれた年によってはタイプが前後の空になることがあります。</p>` : ""}
+    <p class="note">※この診断は日にちだけで計算しています。方位まで読む「部屋読み」では、生年と間取りもあわせて読み解きます。</p>
+    <div class="share">
+      <a class="btn" id="shareX" target="_blank" rel="noopener">結果をシェアする</a>
+      <a class="btn ghost" href="#line">LINEで月の言葉を受け取る</a>
+    </div>`;
+  el.style.display = "block";
+  const text = `わたしの空は「${t.name}」でした。\n${t.name}さんが落ち着けるのは、${t.room}。\n#空読み #空読みの部屋`;
+  document.getElementById("shareX").href = "https://x.com/intent/post?text="+encodeURIComponent(text)+"&url="+encodeURIComponent(location.href.split("#")[0]);
+  el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+document.getElementById("form").addEventListener("submit", e=>{
+  e.preventDefault();
+  const v = document.getElementById("bd").value;
+  const err = document.getElementById("err");
+  const mt = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  if(!mt){ err.textContent = "生年月日を入れてください。"; return; }
+  const [y,m,d] = [+mt[1],+mt[2],+mt[3]];
+  if(y<1900 || y>2100){ err.textContent = "1900年〜2100年の日付で入れてください。"; return; }
+  err.textContent = "";
+  render(y,m,d);
+});
+
+// 12タイプ一覧
+document.getElementById("typeGrid").innerHTML = [10,11,0,1,2,3,4,5,6,7,8,9].map(i=>{
+  const t = TYPES[i];
+  return `<div class="tcard"><h3>${t.name}</h3><p class="s">${t.star}・${t.stage}</p><p>${t.desc}</p></div>`;
+}).join("");
+
+// 天中殺の表
+document.getElementById("tchTable").innerHTML = [...TCH].sort((a,b)=>a.years[0]-b.years[0]).map(t=>{
+  const s = yearStatus(t);
+  return `<tr class="${t.years[0]===2026?'now':''}"><td>${t.name}</td><td>${t.years[0]}〜${t.years[1]}年</td><td><span class="tag ${s.cls}" style="margin:0">${s.cls==='rest'?'整える年':'動ける年'}</span></td></tr>`;
+}).join("");
+
+// LINE
+if(LINE_URL){
+  const b = document.getElementById("lineBtn"); b.href = LINE_URL; b.target="_blank"; b.rel="noopener";
+  document.getElementById("lineNote").remove();
+}
+
+// 星
+const st = document.getElementById("stars");
+for(let i=0;i<70;i++){
+  const s = document.createElement("i");
+  s.style.left = Math.random()*100+"%"; s.style.top = Math.random()*100+"%";
+  s.style.animationDelay = (Math.random()*4)+"s";
+  if(Math.random()<.2){ s.style.width = s.style.height = "3px"; }
+  st.appendChild(s);
+}
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
